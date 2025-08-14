@@ -1,0 +1,34 @@
+########################################
+# Maven build output
+########################################
+target/
+
+########################################
+# Maven release plugin files
+########################################
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+########################################
+# Maven Wrapper
+########################################
+.mvn/timing.properties
+# Uncomment the next line if you don't want to commit the wrapper jar
+# .mvn/wrapper/maven-wrapper.jar
+
+########################################
+# Logs
+########################################
+*.log
+
+########################################
+# Temporary files
+########################################
+*.swp
+*.swo
+*~

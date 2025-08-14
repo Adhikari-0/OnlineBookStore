@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Add New Book</title>
+	<style>
+		body {
+			font-family: 'Arial', sans-serif;
+			background: #f4f4f4;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+		}
+
+		.form-container {
+			background: white;
+			padding: 30px 40px;
+			border-radius: 10px;
+			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+			width: 100%;
+		}
+
+		.form-container h2 {
+			text-align: center;
+			margin-bottom: 20px;
+			color: #333;
+		}
+
+		.popup {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			padding: 15px 20px;
+			border-radius: 6px;
+			color: white;
+			font-weight: bold;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			z-index: 9999;
+			opacity: 0.95;
+			animation: fadeOut 4s forwards;
+		}
+
+		.popup.success {
+			background-color: #28a745;
+			/* green */
+		}
+
+		.popup.error {
+			background-color: #dc3545;
+			/* red */
+		}
+
+		@keyframes fadeOut {
+			0% {
+				opacity: 1;
+			}
+
+			75% {
+				opacity: 1;
+			}
+
+			100% {
+				opacity: 0;
+				display: none;
+			}
+		}
+
+		.inside-form {
+			display: flex;
+			flex-direction: row;
+		}
+
+		label {
+			display: block;
+			margin-top: 15px;
+			margin-bottom: 5px;
+			color: #555;
+		}
+
+		input[type="text"],
+		input[type="number"],
+		.select-container {
+			width: 100%;
+			padding: 10px;
+			margin-right: 200px;
+			border: 1px solid #ccc;
+			border-radius: 6px;
+			box-sizing: border-box;
+		}
+
+		.media-container {
+			display: block;
+			margin-top: 15px;
+			margin-bottom: 5px;
+			margin-left: 100px;
+		}
+
+		.image-frame {
+			width: 300px;
+			height: 200px;
+			margin-left: 40px;
+			border: 2px solid #333;
+			overflow: hidden;
+			border-radius: 8px;
+			position: relative;
+		}
+
+		.image-frame img {
+			width: 100%;
+			height: auto;
+			display: block;
+		}
+
+		button {
+			margin-top: 20px;
+			width: 100%;
+			padding: 12px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 6px;
+			font-size: 16px;
+			cursor: pointer;
+		}
+
+		button:hover {
+			background-color: #45a049;
+		}
+
+		.back-link {
+			margin-top: 20px;
+			padding: 12px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 6px;
+			font-size: 16px;
+			cursor: pointer;
+			text-align: center;
+			display: block;
+			text-decoration: none;
+		}
+
+		.back-link:hover {
+			background-color: #45a049;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="form-container">
+		<h2>Add New Book</h2>
+		<!-- Success/Error popup message -->
+		<div id="popup" th:if="${message}" th:text="${message}"
+			th:class="${status} == 'success' ? 'popup success' : 'popup error'">
+		</div>
+		<form action="/admin/save" method="post" enctype="multipart/form-data">
+			<div class="inside-form">
+				<div class="text-container">
+					<label for="name">Book Name:</label>
+					<input type="text" id="name" name="name" required>
+
+					<label for="author">Author:</label>
+					<input type="text" id="author" name="author" required>
+
+					<label for="price">Price (₹):</label>
+					<input type="number" id="price" name="price" step="0.01" required>
+
+					<label for="country">Book Category</label>
+					<select name="category" id="country" class="select-container">
+						<option value="Fiction">Fiction</option>
+						<option value="Non-fiction">Non-fiction</option>
+						<option value="Science">Science</option>
+						<option value="Technology">Technology</option>
+						<option value="Children">Children</option>
+					</select>
+				</div>
+				<div class="media-container">
+					<label for="bookFile">Upload Book File (PDF, EPUB, etc.):</label>
+					<input type="file" id="bookFile" name="pdfFile" accept=".pdf" />
+
+					<label for="bookImage">Upload cover image</label>
+					<input type="file" name="imageFile" accept="image/*" id="imageInput" />
+				</div>
+				<div class="image-frame">
+					<img id="preview" src="" alt="No Image" />
+				</div>
+			</div>
+			<button type="submit">Add Book</button>
+		</form>
+		<a class="back-link" th:href="@{/admin}">← Back to Book List</a>
+	</div>
+
+</body>
+<script>
+	const input = document.getElementById('imageInput');
+	const preview = document.getElementById('preview');
+
+	input.addEventListener('change', function () {
+		const file = input.files[0];
+		if (file) {
+			preview.src = URL.createObjectURL(file);
+		}
+	});
+
+	window.addEventListener('DOMContentLoaded', () => {
+		const popup = document.getElementById('popup');
+		if (popup) {
+			setTimeout(() => {
+				popup.style.display = 'none';
+			}, 4000); // hide after 4 seconds
+		}
+	});
+</script>
+
+</html>

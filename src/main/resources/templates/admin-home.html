@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Online Book Store</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+
+		header,
+		footer {
+			background-color: #4CAF50;
+			color: white;
+			padding: 0.5rem;
+			text-align: center;
+		}
+
+		.logo-list {
+			display: flex;
+			flex-direction: row;
+			gap: 20px;
+		}
+
+		.logo {
+			padding: 0.5rem 1rem;
+			background: #eee;
+			text-decoration: none;
+			cursor: pointer;
+		}
+
+		.top-nav-container {
+			position: sticky;
+			top: 0;
+			background-color: #f4f4f4;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 0.75rem 1rem;
+			z-index: 1000;
+		}
+
+		.floating-search-bar {
+			position: relative;
+			width: 300px;
+			margin-left: auto;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.floating-search-bar input {
+			width: 100%;
+			padding: 8px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+		}
+
+		.floating-search-bar ul {
+			position: absolute;
+			top: 100%;
+			left: 0;
+			right: 0;
+			list-style-type: none;
+			margin: 5px 0 0;
+			padding: 0;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			max-height: 200px;
+			overflow-y: auto;
+			z-index: 1001;
+		}
+
+
+		.floating-search-bar li {
+			padding: 8px;
+			cursor: pointer;
+		}
+
+		.floating-search-bar li:hover {
+			background-color: #f0f0f0;
+		}
+
+
+
+		.section {
+			padding: 0.5rem;
+		}
+
+		.book-list {
+			display: flex;
+			flex-direction: row;
+			gap: 20px;
+			flex-wrap: wrap;
+		}
+
+		.book {
+			border: 1px solid #ccc;
+			padding: 10px;
+			width: 150px;
+			text-align: center;
+		}
+
+		.image-frame-home img {
+			width: 100%;
+			height: 250px;
+			display: block;
+		}
+
+		.category-list {
+			display: flex;
+			gap: 1rem;
+			margin-bottom: 1rem;
+		}
+
+		.category {
+			background: #eee;
+			padding: 0.5rem 1rem;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+		.buttom-section {
+			margin-top: 10px;
+			display: flex;
+			gap: 10px;
+		}
+
+		.delete-buttom {
+			display: inline-block;
+			background-color: red;
+			color: white;
+			padding: 5px 10px;
+			text-decoration: none;
+			border: none;
+			border-radius: 5px;
+		}
+
+		.edit-button {
+			display: inline-block;
+			background-color: #007BFF;
+			/* blue */
+			color: white;
+			padding: 5px 10px;
+			text-decoration: none;
+			border: none;
+			border-radius: 5px;
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<h1>📘 Online Book Store</h1>
+		<!--<form th:action="@{/logout}" method="post">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+			<button type="submit">Logout</button>
+		</form>-->
+	</header>
+	<!--     -->
+
+	<div class="top-nav-container">
+		<div class="logo-list">
+			<div class="logo" th:attr="onclick=|location.href='@{/admin}'|" style="cursor: pointer;">
+				BookStore
+			</div>
+			<div class="logo" th:attr="onclick='location.href=\'' + @{/admin/book_register} + '\''"
+				style="cursor: pointer;">
+				Register Book
+			</div>
+		</div>
+		<div class="floating-search-bar">
+			<input type="text" id="bookSearch" placeholder="Search book..." onkeyup="fetchSuggestions()">
+			<ul id="suggestionList" style="border: 1px solid #ccc; display: none;"></ul>
+			<p th:if="${noBookFound}" style="color: red; margin-top: 5px;">
+				❌ No book found for "<span th:text="${searchKeyword}"></span>"
+			</p>
+		</div>
+	</div>
+
+
+	<section class="section">
+		<h2>📂 Categories</h2>
+		<div class="category-list">
+			<div class="category" th:attr="onclick=|location.href='@{/admin/categorysearch(category=${'Fiction'})}'|"
+				style="cursor: pointer;">
+				Fiction
+			</div>
+			<div class="category"
+				th:attr="onclick=|location.href='@{/admin/categorysearch(category=${'Non-fiction'})}'|"
+				style="cursor: pointer;">
+				Non-fiction
+			</div>
+			<div class="category" th:attr="onclick=|location.href='@{/admin/categorysearch(category=${'Science'})}'|"
+				style="cursor: pointer;">
+				Science
+			</div>
+			<div class="category" th:attr="onclick=|location.href='@{/admin/categorysearch(category=${'Technology'})}'|"
+				style="cursor: pointer;">
+				Technology
+			</div>
+			<div class="category" th:attr="onclick=|location.href='@{/admin/categorysearch(category=${'Children'})}'|"
+				style="cursor: pointer;">
+				Children
+			</div>
+		</div>
+	</section>
+	<section class="section">
+		<h2 th:if="${categoryName != null}">📚 Books in Category: <span th:text="${categoryName}"></span></h2>
+		<h2 th:if="${categoryName == null}">🌟 Total available books</h2>
+		<p th:if="${#lists.isEmpty(book)}">No books found in this category.</p>
+		<div class="book-list">
+			<div class="book" th:each="b : ${book}">
+				<div th:if="${b.imageData}" class="image-frame-home">
+					<img th:src="'data:image/jpeg;base64,' + ${b.imageData}" width="200" />
+				</div>
+
+				<div class="pdf-frame-home" th:if="${b.pdfData}">
+					<button type="button" th:attr="onclick=|viewPdf('${b.pdfData}')|">View PDF</button>
+					<button type="button" th:attr="onclick=|downloadPdf('${b.pdfData}', '${b.pdfFileName}')|">Download
+						PDF</button>
+				</div>
+
+				<div th:text="${b.id}"></div>
+
+				<strong th:text="${b.name}">Book Name</strong>
+				<div>Author: <span th:text="${b.author}"></span></div>
+				<strong th:text="${b.category}">Category</strong>
+				<div>₹<span th:text="${b.price}"></span></div>
+				<div class="buttom-section">
+					<a class="delete-buttom" th:href="@{'/admin/delete/' + ${b.id}}"
+						onclick="return confirm('Are you sure you want to delete this book?');">
+						Delete
+					</a>
+
+					<a class="edit-button" th:href="@{'/admin/edit/' + ${b.id}}">
+						Edit
+					</a>
+				</div>
+
+
+			</div>
+		</div>
+	</section>
+
+
+	<section class="section">
+		<h2>🔥 Best Sellers</h2>
+		<div class="book-list">
+			<!-- Similar structure to above -->
+		</div>
+	</section>
+
+	<footer>
+		<p>&copy; 2025 Online Book Store. All rights reserved.</p>
+	</footer>
+</body>
+<script>
+	function viewPdf(base64) {
+		const dataUrl = "data:application/pdf;base64," + base64;
+		const win = window.open();
+		win.document.write(
+			`<iframe src="${dataUrl}" style="width:100%; height:100%;" frameborder="0"></iframe>`
+		);
+	}
+
+	function downloadPdf(base64, fileName) {
+		const dataUrl = "data:application/pdf;base64," + base64;
+		const link = document.createElement("a");
+		link.href = dataUrl;
+		link.download = fileName || "book.pdf";
+		link.click();
+	}
+	function fetchSuggestions() {
+		const query = document.getElementById('bookSearch').value;
+		const list = document.getElementById('suggestionList');
+		list.innerHTML = '';
+
+		if (query.length < 2) {
+			list.style.display = 'none';
+			return;
+		}
+
+		fetch(`http://localhost:1001/admin/suggest?q=${query}`)
+			.then(res => res.json())
+			.then(data => {
+				list.innerHTML = '';
+				data.forEach(bookName => {
+					const li = document.createElement('li');
+					li.textContent = bookName;
+					li.style.cursor = 'pointer';
+					li.onclick = () => {
+						document.getElementById('bookSearch').value = bookName;
+						list.style.display = 'none';
+						performBookSearch(bookName); // your custom search function
+					};
+					list.appendChild(li);
+				});
+				list.style.display = data.length > 0 ? 'block' : 'none';
+			});
+	}
+
+	function performBookSearch(bookName) {
+		window.location.href = `/admin/search?name=${encodeURIComponent(bookName)}`;
+	}
+</script>
+
+
+</html>

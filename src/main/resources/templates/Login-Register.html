@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login & Register</title>
+	<style>
+		body {
+			background: #e0e5ec;
+			font-family: Arial, sans-serif;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+		}
+
+		.container {
+			background: #e0e5ec;
+			padding: 30px;
+			border-radius: 20px;
+			box-shadow: 9px 9px 16px #a3b1c6,
+				-9px -9px 16px #ffffff;
+			width: 300px;
+		}
+
+		.tab {
+			display: flex;
+			justify-content: space-around;
+			margin-bottom: 20px;
+		}
+
+		.tab button {
+			flex: 1;
+			padding: 10px;
+			margin: 0 5px;
+			border: none;
+			border-radius: 10px;
+			background: #e0e5ec;
+			box-shadow: inset 3px 3px 6px #a3b1c6,
+				inset -3px -3px 6px #ffffff;
+			cursor: pointer;
+			font-weight: bold;
+		}
+
+		.tab button.active {
+			box-shadow: 3px 3px 6px #a3b1c6,
+				-3px -3px 6px #ffffff;
+		}
+
+		input {
+			width: 100%;
+			padding: 10px;
+			margin: 8px 0;
+			border: none;
+			border-radius: 10px;
+			background: #e0e5ec;
+			box-shadow: inset 3px 3px 6px #a3b1c6,
+				inset -3px -3px 6px #ffffff;
+		}
+
+		.btn {
+			width: 100%;
+			padding: 10px;
+			border: none;
+			border-radius: 10px;
+			background: #e0e5ec;
+			box-shadow: 3px 3px 6px #a3b1c6,
+				-3px -3px 6px #ffffff;
+			cursor: pointer;
+			font-weight: bold;
+		}
+
+		.social {
+			text-align: center;
+			margin-top: 15px;
+		}
+
+		.social button {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			border: none;
+			margin: 0 5px;
+			background: #e0e5ec;
+			box-shadow: 3px 3px 6px #a3b1c6,
+				-3px -3px 6px #ffffff;
+			cursor: pointer;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="container">
+		<div class="tab">
+			<button id="loginTab" class="active" onclick="showForm('login')">Login</button>
+			<button id="registerTab" onclick="showForm('register')">Register</button>
+		</div>
+
+		<!-- Login Form -->
+		<form action="/auth/login" method="post" id="loginForm">
+			<input type="email" placeholder="Email" name="email" required>
+			<input type="password" placeholder="Password" name="password" required>
+			<button class="btn" type="submit">Login</button>
+			<div class="social">
+				<p>Or sign in with</p>
+				<button>G</button>
+				<button>F</button>
+				<button>T</button>
+			</div>
+		</form>
+		<p th:if="${error}" th:text="${error}" style="color:red;"></p>
+
+		<!-- Register Form -->
+		<form action="/auth/signup" method="post" id="registerForm" style="display:none;">
+			<input type="text" placeholder="Full Name" name="fullName" required>
+			<input type="email" placeholder="Email" name="email" required>
+			<input type="password" placeholder="Password" name="password" required>
+			<input type="password" placeholder="Confirm Password" required>
+			<button class="btn" type="submit">Register</button>
+			<div class="social">
+				<p>Or sign up with</p>
+				<button>G</button>
+				<button>F</button>
+				<button>T</button>
+			</div>
+		</form>
+	</div>
+
+	<script>
+		function showForm(type) {
+			document.getElementById("loginForm").style.display = type === 'login' ? 'block' : 'none';
+			document.getElementById("registerForm").style.display = type === 'register' ? 'block' : 'none';
+			document.getElementById("loginTab").classList.toggle("active", type === 'login');
+			document.getElementById("registerTab").classList.toggle("active", type === 'register');
+		}
+	</script>
+
+</body>
+
+</html>
