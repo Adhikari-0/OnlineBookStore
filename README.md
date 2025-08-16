@@ -54,18 +54,14 @@ Run the application
 
 mvn spring-boot:run
 
-The application will start at http://localhost:1001
+The application will start at 'localhost:1001'
 ```
 
 📡 API Endpoints
-Method	Endpoint	Role Access	Description
-GET	/api/books	USER, ADMIN, SUPER_ADMIN	Get all books
-GET	/api/books/{id}	USER, ADMIN, SUPER_ADMIN	Get book by ID
-GET	/api/books/search	USER, ADMIN, SUPER_ADMIN	Search books by name/author
-POST	/api/books	ADMIN, SUPER_ADMIN	Add a new book
-PUT	/api/books/{id}	ADMIN, SUPER_ADMIN	Update book
-DELETE	/api/books/{id}	SUPER_ADMIN	Delete book
-POST	/api/auth/register	Public	Register a new user
-POST	/api/auth/login	Public	Login and get JWT token
-GET	/api/admin/users	SUPER_ADMIN	Manage users
+| Role  | Endpoint            |
+|-------|---------------------|
+| USER  | localhost:1001/book |
+| ADMIN | localhost:1001/admin |
+<br>
+SUPER_ADMIN: {Method: Post, Endpoint: localhost:1001/admins} 
 
