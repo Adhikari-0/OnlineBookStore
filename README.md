@@ -6,17 +6,17 @@ A Spring Boot-based online bookstore application that allows users to browse, se
 
 ## Features
 
-- Browse all books with details like name, author, and description
-- Search books by name or author
-- Add, edit, and delete books (admin functionality)
-- User authentication and registration
+- 🔍 Browse all books with details like Fiction, Non-fiction, Science, Technology, Children
+- 📖 Search books by name
+- ➕➖✏️ Add, edit, and delete books (admin functionality)
+- 🔐 User authentication and registration
 - REST API endpoints for frontend integration
-- Responsive and user-friendly UI (optional frontend framework)
-- 🛡️ Role-based access control:<br>
+- 🎨 Responsive and user-friendly UI (Thymeleaf)
+- 🔐 Role-Based Access Control (RBAC):<br>
     For Login or signup use 'localhost:1001/auth/signuplogin' as a User and Admin<br>
-    USER: localhost:1001/book<br>
-    ADMIN: localhost:1001/admin<br>
-    SUPER_ADMIN: localhost:1001/admins (can create only admin user)
+    USER: Can browse and search books<br>
+    ADMIN: Can add, edit, and delete books, manage users, and also signup and login users<br>
+    SUPER_ADMIN: can create admin user
 
 ---
 
