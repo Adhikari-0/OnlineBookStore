@@ -60,8 +60,8 @@ The application will start at 'localhost:1001'
 📡 API Endpoints
 | Role  | Endpoint            |
 |-------|---------------------|
-| USER  | localhost:1001/book |
-| ADMIN | localhost:1001/admin |
+| USER  | localhost:1001/book/** |
+| ADMIN | localhost:1001/admin/** |
 <br>
 SUPER_ADMIN: {Method: Post, Endpoint: localhost:1001/admins} 
 
