@@ -1,6 +1,6 @@
-# OnlineBookStore
+📚 OnlineBookStore
 
-A Spring Boot-based online bookstore application that allows users to browse, search, and manage books. This project uses **Maven** for build management and is compatible with Eclipse, IntelliJ IDEA, and other Java IDEs.
+A Spring Boot-based online bookstore application that allows users to browse, search, and manage books. The backend is built with Spring Boot and Spring Data JPA, with MySQL as the database. The application includes role-based access control (RBAC) with three roles: USER, ADMIN, and SUPER_ADMIN.
 
 ---
 
@@ -10,7 +10,6 @@ A Spring Boot-based online bookstore application that allows users to browse, se
 - 📖 Search books by name
 - ➕➖✏️ Add, edit, and delete books (admin functionality)
 - 🔐 User authentication and registration
-- REST API endpoints for frontend integration
 - 🎨 Responsive and user-friendly UI (Thymeleaf)
 - 🔐 Role-Based Access Control (RBAC):<br>
     For Login or signup use 'localhost:1001/auth/signuplogin' as a User and Admin<br>
@@ -55,5 +54,18 @@ Run the application
 
 mvn spring-boot:run
 
-
 The application will start at http://localhost:1001
+```
+
+📡 API Endpoints
+Method	Endpoint	Role Access	Description
+GET	/api/books	USER, ADMIN, SUPER_ADMIN	Get all books
+GET	/api/books/{id}	USER, ADMIN, SUPER_ADMIN	Get book by ID
+GET	/api/books/search	USER, ADMIN, SUPER_ADMIN	Search books by name/author
+POST	/api/books	ADMIN, SUPER_ADMIN	Add a new book
+PUT	/api/books/{id}	ADMIN, SUPER_ADMIN	Update book
+DELETE	/api/books/{id}	SUPER_ADMIN	Delete book
+POST	/api/auth/register	Public	Register a new user
+POST	/api/auth/login	Public	Login and get JWT token
+GET	/api/admin/users	SUPER_ADMIN	Manage users
+
