@@ -12,10 +12,10 @@ A Spring Boot-based online bookstore application that allows users to browse, se
 - User authentication and registration
 - REST API endpoints for frontend integration
 - Responsive and user-friendly UI (optional frontend framework)
-- 🛡️ Role-based access control:
-    For Login or signup use 'localhost:1001/auth/signuplogin' as a User, Admin or Super_Admin
-    USER: localhost:1001/book
-    ADMIN: localhost:1001/admin
+- 🛡️ Role-based access control:<br>
+    For Login or signup use 'localhost:1001/auth/signuplogin' as a User, Admin or Super_Admin<br>
+    USER: localhost:1001/book<br>
+    ADMIN: localhost:1001/admin<br>
     SUPER_ADMIN: localhost:1001/admins (can create only admin user)
 
 ---
