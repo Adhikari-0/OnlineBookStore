@@ -32,3 +32,7 @@ buildNumber.properties
 *.swp
 *.swo
 *~
+# Eclipse project files
+.classpath
+.factorypath
+.project

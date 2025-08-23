@@ -47,9 +47,9 @@ public class AuthenticationController {
 
 			Cookie cookie = new Cookie("OnlineBookStore", jwtToken);
 			cookie.setHttpOnly(true);
-			cookie.setSecure(false); // true in production with HTTPS
+			cookie.setSecure(false);
 			cookie.setPath("/");
-			cookie.setMaxAge(60 * 60); // 1 hour
+			cookie.setMaxAge(60 * 60); 
 			response.addCookie(cookie);
 
 			return "redirect:/book";
@@ -75,7 +75,7 @@ public class AuthenticationController {
 
 			Cookie cookie = new Cookie("OnlineBookStore", jwtToken);
 			cookie.setHttpOnly(true);
-			cookie.setSecure(false); // Set to true in production with HTTPS
+			cookie.setSecure(false);
 			cookie.setPath("/");
 			cookie.setMaxAge(60 * 60);
 			response.addCookie(cookie);
