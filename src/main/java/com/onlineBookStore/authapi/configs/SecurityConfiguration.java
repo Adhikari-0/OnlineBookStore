@@ -32,14 +32,15 @@ public class SecurityConfiguration {
 	protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(
-						auth -> auth.requestMatchers("/auth/**").permitAll().anyRequest().authenticated())
-				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				).authenticationProvider(authenticationProvider)
+						auth -> auth.requestMatchers("/auth/**","/super-admins/**").permitAll().anyRequest().authenticated())
+				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.authenticationProvider(authenticationProvider)
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-				.logout(logout -> logout.logoutUrl("/auth/logout")
-						.deleteCookies("OnlineBookStore")
-						.logoutSuccessUrl("/auth/signuplogin")
-						.invalidateHttpSession(true));
+				.logout(logout -> logout.logoutUrl("/auth/logout").deleteCookies("OnlineBookStore")
+						.logoutSuccessUrl("/auth/signuplogin").invalidateHttpSession(true))
+				.exceptionHandling(ex -> ex.authenticationEntryPoint((request, response, authException) -> {
+					response.sendRedirect("/auth/signuplogin");
+				}));
 
 		return http.build();
 	}

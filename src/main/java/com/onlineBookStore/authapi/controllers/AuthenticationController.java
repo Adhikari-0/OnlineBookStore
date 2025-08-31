@@ -4,13 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.onlineBookStore.authapi.dtos.LoginUserDto;
 import com.onlineBookStore.authapi.dtos.RegisterUserDto;
 import com.onlineBookStore.authapi.entities.RoleEnum;
 import com.onlineBookStore.authapi.entities.User;
-import com.onlineBookStore.authapi.services.AuthHelperService;
 import com.onlineBookStore.authapi.services.AuthenticationService;
 import com.onlineBookStore.authapi.services.JwtService;
 
@@ -25,8 +23,6 @@ public class AuthenticationController {
 	private final JwtService jwtService;
 
 	private final AuthenticationService authenticationService;
-
-	private AuthHelperService authHelperService;
 
 	public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {
 		this.jwtService = jwtService;
@@ -49,7 +45,7 @@ public class AuthenticationController {
 			cookie.setHttpOnly(true);
 			cookie.setSecure(false);
 			cookie.setPath("/");
-			cookie.setMaxAge(60 * 60); 
+			cookie.setMaxAge(60 * 60);
 			response.addCookie(cookie);
 
 			return "redirect:/book";
@@ -80,7 +76,9 @@ public class AuthenticationController {
 			cookie.setMaxAge(60 * 60);
 			response.addCookie(cookie);
 
-			if (RoleEnum.ADMIN == authenticatedUser.getRole().getName()) {
+			if (RoleEnum.SUPER_ADMIN == authenticatedUser.getRole().getName()) {
+				return "redirect:/create";
+			} else if (RoleEnum.ADMIN == authenticatedUser.getRole().getName()) {
 				return "redirect:/admin";
 			} else {
 				return "redirect:/book";
