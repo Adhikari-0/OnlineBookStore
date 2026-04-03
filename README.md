@@ -62,6 +62,7 @@ The application will start at 'localhost:1001'
 |-------|---------------------|
 | USER  | localhost:1001/book/** |
 | ADMIN | localhost:1001/admin/** |
+| SuperAdmin | localhost:1001/create/** |
 <br>
 SUPER_ADMIN: {Method: Post, Endpoint: localhost:1001/admins} 
 
