@@ -26,11 +26,6 @@ public class BookController {
 		List<BookDTO> responseList = bookService.getAllBooks();
 		return new ModelAndView("home", "book", responseList);
 	}
-	@GetMapping("/wiseList")
-	public ModelAndView getWiseListBooks() {
-		List<BookDTO> responseList = bookService.getAllBooks();
-		return new ModelAndView("wiseList", "book", responseList);
-	}
 
 	@GetMapping("/categorysearch")
 	public ModelAndView searchBooksByCategory(@RequestParam String category) {

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin List</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .no-data {
+            text-align: center;
+            color: red;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            border: none;
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #45a049;
+        }
+    </style>
+
+</head>
+<body>
+
+<h2>Admin List (SUPER ADMIN ONLY)</h2>
+
+<!-- ✅ If no admins -->
+<div th:if="${#lists.isEmpty(admins)}" class="no-data">
+    No Admins Found
+</div>
+
+<!-- ✅ Table -->
+<table th:if="${!#lists.isEmpty(admins)}">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr th:each="admin : ${admins}">
+            <td th:text="${admin.id}"></td>
+            <td th:text="${admin.fullName}"></td>
+            <td th:text="${admin.email}"></td>
+            <td th:text="${admin.role.name}"></td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Online Book Store</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        h1 {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 20px;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 30px;
+            background-color: #fff;
+            color: #333;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .books {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .book {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            width: 150px;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .login-btn {
+            background-color: #ffcc00;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .login-btn:hover {
+            background-color: #000;
+            color: #ffcc00;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>📚 Online Book Store</h1>
+        <p>Discover your next favorite book anytime, anywhere</p>
+
+        <div class="books">
+            <div class="book">📖 Fiction</div>
+            <div class="book">📘 Education</div>
+            <div class="book">📙 Comics</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <button class="btn login-btn" onclick="goToLogin()">Login</button>
+    </div>
+
+    <script>
+        function goToLogin() {
+            window.location.href = "/auth/signuplogin";
+        }
+    </script>
+
+</body>
+
+</html>

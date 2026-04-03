@@ -1,6 +1,5 @@
 package com.onlineBookStore.authapi.services;
 
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -8,12 +7,12 @@ import com.onlineBookStore.authapi.dtos.RegisterUserDto;
 import com.onlineBookStore.authapi.entities.Role;
 import com.onlineBookStore.authapi.entities.RoleEnum;
 import com.onlineBookStore.authapi.entities.User;
+import com.onlineBookStore.authapi.exceptions.UserAlreadyExistsException;
 import com.onlineBookStore.authapi.repositories.RoleRepository;
 import com.onlineBookStore.authapi.repositories.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -38,18 +37,22 @@ public class UserService {
 	}
 
 	public User createAdministrator(RegisterUserDto input) {
-		Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.ADMIN);
 
-		if (optionalRole.isEmpty()) {
-			return null;
+		if (userRepository.findByEmail(input.getEmail()).isPresent()) {
+			throw new UserAlreadyExistsException("User already exists with this email");
 		}
+
+		Role role = roleRepository.findByName(RoleEnum.ADMIN).orElseThrow(() -> new RuntimeException("Role not found"));
 
 		User user = new User();
 		user.setFullName(input.getFullName());
 		user.setEmail(input.getEmail());
 		user.setPassword(passwordEncoder.encode(input.getPassword()));
-		user.setRole(optionalRole.get());
+		user.setRole(role);
 
 		return userRepository.save(user);
+	}
+	public void listOfAdminUser() {
+		
 	}
 }

@@ -1,20 +1,19 @@
 package com.onlineBookStore.authapi.controllers;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.onlineBookStore.authapi.dtos.RegisterUserDto;
-import com.onlineBookStore.authapi.entities.User;
 import com.onlineBookStore.authapi.services.UserService;
 
+import jakarta.validation.Valid;
+
 @RequestMapping("/create")
-//@RestController
 @Controller
 public class AdminController {
 
@@ -23,6 +22,7 @@ public class AdminController {
 	public AdminController(UserService userService) {
 		this.userService = userService;
 	}
+
 	@GetMapping
 	@PreAuthorize("hasRole('SUPER_ADMIN')")
 	public String createAdminForm() {
@@ -31,10 +31,22 @@ public class AdminController {
 
 	@PostMapping("/admin")
 	@PreAuthorize("hasRole('SUPER_ADMIN')")
-	public ResponseEntity<User> createAdministrator(@RequestBody RegisterUserDto registerUserDto) {
-		User createdAdmin = userService.createAdministrator(registerUserDto);
+	public String createAdministrator(@Valid @ModelAttribute RegisterUserDto registerUserDto, BindingResult result,
+			Model model) {
 
-		return ResponseEntity.ok(createdAdmin);
+		// Validation errors
+		if (result.hasErrors()) {
+			return "create-admin";
+		}
+
+		try {
+			userService.createAdministrator(registerUserDto);
+			model.addAttribute("success", "Admin created successfully");
+		} catch (Exception e) {
+			model.addAttribute("error", e.getMessage());
+		}
+
+		return "createAdmin";
 	}
 
 }

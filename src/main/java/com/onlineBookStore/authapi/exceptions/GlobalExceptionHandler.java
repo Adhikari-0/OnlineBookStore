@@ -2,6 +2,10 @@ package com.onlineBookStore.authapi.exceptions;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -11,13 +15,56 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import jakarta.validation.ConstraintViolationException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+	// Handle custom exception (USER ALREADY EXISTS)
+	@ExceptionHandler(UserAlreadyExistsException.class)
+	public ProblemDetail handleUserAlreadyExists(UserAlreadyExistsException ex) {
+		ProblemDetail errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(409), ex.getMessage());
+		errorDetail.setProperty("description", "User already exists with this email");
+
+		return errorDetail;
+	}
+
+	//Handle Validation Errors (@Valid DTO)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ProblemDetail handleValidationExceptions(MethodArgumentNotValidException ex) {
+
+		Map<String, String> errors = new HashMap<>();
+
+		ex.getBindingResult().getFieldErrors()
+				.forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+
+		ProblemDetail errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), "Validation failed");
+
+		errorDetail.setProperty("errors", errors);
+
+		return errorDetail;
+	}
+	
+    //Handle Constraint Violations (e.g., @RequestParam, @PathVariable)
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ProblemDetail handleConstraintViolation(ConstraintViolationException ex) {
+
+        ProblemDetail errorDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatusCode.valueOf(400),
+                "Constraint violation"
+        );
+
+        errorDetail.setProperty("description", ex.getMessage());
+
+        return errorDetail;
+    }
+
+	// Handle all other exceptions (SECURITY + GENERAL)
 	@ExceptionHandler(Exception.class)
 	public ProblemDetail handleSecurityException(Exception exception) {
 		ProblemDetail errorDetail = null;
 
-		// TODO send this stack trace to an observe ability tool
+		// send this stack trace to an observe ability tool
 		exception.printStackTrace();
 
 		if (exception instanceof BadCredentialsException) {

@@ -9,6 +9,7 @@ import com.onlineBookStore.authapi.dtos.LoginUserDto;
 import com.onlineBookStore.authapi.dtos.RegisterUserDto;
 import com.onlineBookStore.authapi.entities.RoleEnum;
 import com.onlineBookStore.authapi.entities.User;
+import com.onlineBookStore.authapi.exceptions.UserAlreadyExistsException;
 import com.onlineBookStore.authapi.services.AuthenticationService;
 import com.onlineBookStore.authapi.services.JwtService;
 
@@ -32,7 +33,8 @@ public class AuthenticationController {
 	@PostMapping("/signup")
 	public String register(RegisterUserDto registerUserDto, HttpServletResponse response, Model model) {
 		try {
-			User registeredUser = authenticationService.signup(registerUserDto);
+			//User registeredUser = authenticationService.signup(registerUserDto);
+			authenticationService.signup(registerUserDto);
 
 			LoginUserDto loginUserDto = new LoginUserDto();
 			loginUserDto.setEmail(registerUserDto.getEmail());
@@ -50,8 +52,8 @@ public class AuthenticationController {
 
 			return "redirect:/book";
 
-		} catch (Exception e) {
-			model.addAttribute("error", "Error during creating user");
+		} catch (UserAlreadyExistsException e) {
+			model.addAttribute("error", e.getMessage());
 			return "Login-Register";
 		}
 

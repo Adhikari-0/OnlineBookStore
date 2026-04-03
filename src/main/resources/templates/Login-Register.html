@@ -110,10 +110,10 @@
 				<button>T</button>
 			</div>
 		</form>
-		<p th:if="${error}" th:text="${error}" style="color:red;"></p>
 
 		<!-- Register Form -->
 		<form action="/auth/signup" method="post" id="registerForm" style="display:none;">
+			<p th:if="${error}" th:text="${error}" style="color:red;"></p>
 			<input type="text" placeholder="Full Name" name="fullName" required>
 			<input type="email" placeholder="Email" name="email" required>
 			<input type="password" placeholder="Password" name="password" required>

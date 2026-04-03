@@ -20,6 +20,7 @@ import com.onlineBookStore.businessLogic.dto.BookDTO;
 import com.onlineBookStore.businessLogic.entity.Book;
 import com.onlineBookStore.businessLogic.service.BookService;
 
+@PreAuthorize("hasAnyRole('ADMIN')")
 @RequestMapping("/admin")
 @Controller
 public class AdminBookController {
