@@ -79,7 +79,7 @@ public class AuthenticationController {
 			response.addCookie(cookie);
 
 			if (RoleEnum.SUPER_ADMIN == authenticatedUser.getRole().getName()) {
-				return "redirect:/create";
+				return "redirect:/SuperAdmin";
 			} else if (RoleEnum.ADMIN == authenticatedUser.getRole().getName()) {
 				return "redirect:/admin";
 			} else {

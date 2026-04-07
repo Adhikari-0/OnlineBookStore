@@ -121,7 +121,7 @@
         <div class="top-bar">
 
             <!-- Go Back -->
-            <button class="btn-back" onclick="history.back()">⬅ Go Back</button>
+            <button class="btn-back" th:onclick="|window.location.href='@{/SuperAdmin}'|">⬅ Go Back</button>
 
             <!-- 🔍 Search -->
             <form method="get" th:action="@{/SuperAdmin/admins}" class="search-box">
