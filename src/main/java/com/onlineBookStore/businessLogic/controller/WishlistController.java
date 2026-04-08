@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,8 +21,9 @@ import com.onlineBookStore.businessLogic.entity.Book;
 import com.onlineBookStore.businessLogic.repository.BookRepository;
 import com.onlineBookStore.businessLogic.service.WishlistService;
 
-@RequestMapping("/wishlist")
+@PreAuthorize("hasAnyRole('USER')")
 @Controller
+@RequestMapping("/wishlist")
 public class WishlistController {
 
 	@Autowired
