@@ -1,6 +1,6 @@
 📚 OnlineBookStore
 
-A Spring Boot-based online bookstore application that allows users to browse, search, and manage books. The backend is built with Spring Boot and Spring Data JPA, with MySQL as the database. The application includes role-based access control (RBAC) with three roles: USER, ADMIN, and SUPER_ADMIN.
+A Spring Boot-based online bookstore application that allows users to browse, search, and manage books. The backend is built with Spring Boot and Spring Data JPA, with MySQL as the database. The application includes role-based access control (RBAC) with three roles: USER, ADMIN and SUPER_ADMIN.
 
 ---
 
@@ -12,10 +12,10 @@ A Spring Boot-based online bookstore application that allows users to browse, se
 - 🔐 User authentication and registration
 - 🎨 Responsive and user-friendly UI (Thymeleaf)
 - 🔐 Role-Based Access Control (RBAC):<br>
-    For Login or signup use 'localhost:1001/auth/signuplogin' as a User and Admin<br>
-    USER: Can browse and search books<br>
+    For Login or signup use 'localhost:1001' as a User and Admin<br>
+    USER: Can browse and search books and keep in Wise List<br>
     ADMIN: Can add, edit, and delete books, manage users, and also signup and login users<br>
-    SUPER_ADMIN: can create admin user
+    SUPER_ADMIN: can create admin user and delete it
 
 ---
 
