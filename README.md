@@ -58,11 +58,5 @@ The application will start at 'localhost:1001'
 ```
 
 📡 API Endpoints
-| Role  | Endpoint            |
-|-------|---------------------|
-| USER  | localhost:1001/book/** |
-| ADMIN | localhost:1001/admin/** |
-| SuperAdmin | localhost:1001/SuperAdmin/** |
-<br>
-SUPER_ADMIN: {Method: Post, Endpoint: localhost:1001/admins} 
+You just have to hit "http://localhost:1001" and according to role, you will be redirected to you respective routes 
 
