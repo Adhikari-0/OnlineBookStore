@@ -26,7 +26,7 @@ A Spring Boot-based online bookstore application that allows users to browse, se
 - Spring Data JPA
 - MySQL
 - Maven
-- Thymeleaf / React (depending on frontend choice)
+- Thymeleaf
 - Git & GitHub for version control
 - Eclipse / IntelliJ IDEA as IDE
 
